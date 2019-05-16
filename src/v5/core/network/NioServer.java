@@ -1,4 +1,9 @@
-package v4nio;
+package v5.core.network;
+
+import v5.core.servlet.Servlet;
+import v5.core.context.WebApp;
+import v5.core.request.Request;
+import v5.core.response.Response;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -48,13 +53,19 @@ public class NioServer {
                 if (selectionKey.isReadable()) {
                     readHandler(selectionKey, selector);
                 }
-                if (request != null && response != null) {
+                if (request!=null&&response!=null){
                     System.out.println("-------------------------servletÖ´ÐÐÁË£¡£¡£¡------");
-                    Servlet servlet = new LoginServlet();
-                    servlet.service(this.request,this.response);
-                    response.pushToBrowser(200);
-                    this.request.closeSocketChannel();
 
+                    Servlet servlet= WebApp.getServletFromUrl(this.request.getUrl());
+                    if(null!=servlet) {
+                        servlet.service(this.request, this.response);
+                        //¹Ø×¢ÁË×´Ì¬Âë
+                        response.pushToBrowser(200);
+                        this.request.closeSocketChannel();
+
+                    }else {
+                        //´íÎó....
+                    }
                 }
                 iterator.remove();
             }
@@ -71,7 +82,7 @@ public class NioServer {
     }
 
     private void readHandler(SelectionKey selectionKey, Selector selector) throws IOException {
-        this.request = new Request(selectionKey);
+        this.request =new Request(selectionKey);
 
     }
 }

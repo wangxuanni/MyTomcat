@@ -1,7 +1,9 @@
-package v4nio;
+package v5.user;
 
 
-
+import v5.core.servlet.Servlet;
+import v5.core.request.Request;
+import v5.core.response.Response;
 
 public class LoginServlet implements Servlet {
 	@Override
@@ -14,7 +16,7 @@ public class LoginServlet implements Servlet {
 		response.print("</title>");
 		response.print("</head>");
 		response.print("<body>");
-		response.print("欢迎回来:"+request.getParameter("uname"));
+		response.print("欢迎来到测试页面");
 		response.print("</body>");
 		response.print("</html>");
 	}
