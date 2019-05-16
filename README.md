@@ -32,4 +32,9 @@
   response根据传入的状态码封装固定的头信息、推送响应信息
   
   server只关心内容和状态码
+  
+  
+  版本四：nio
+  将bio版本升级为nio
  
+  版本五：servlet容器
