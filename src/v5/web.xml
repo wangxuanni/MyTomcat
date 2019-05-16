@@ -8,12 +8,4 @@
 	  <servlet-name>login</servlet-name>
 	  <url-pattern>/login</url-pattern> 
  </servlet-mapping>
- <servlet>
-	  <servlet-name>reg</servlet-name>
-	  <servlet-class>v5.RegisterServlet</servlet-class>
- </servlet>   
-  <servlet-mapping>
-	  <servlet-name>reg</servlet-name>
-	  <url-pattern>/r</url-pattern> 
- </servlet-mapping>
  </web-app>
