@@ -34,7 +34,8 @@
   server只关心内容和状态码
   
   
-  版本四：nio
+  版本四：
   将bio版本升级为nio
  
   版本五：servlet容器
+  解析web.xml，返回url对应的servlet
