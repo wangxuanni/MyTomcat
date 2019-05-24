@@ -24,13 +24,12 @@
 
  
  
-  版本三:封装
+  版本三：封装
   
   进行封装，request接受请求并打印。response根据传入的状态码封装固定的头信息、推送响应信息。server只关心内容和状态码
   
   
-  版本四：
-  将bio版本升级为nio
+  版本四：升级为nio
  
   版本五：servlet容器
   解析web.xml，返回url对应的servlet。启动项目打开浏览器http://localhost:8080/login
