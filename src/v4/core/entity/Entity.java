@@ -1,4 +1,4 @@
-package v5.core.entity;
+package v4.core.entity;
 
 public class Entity {
 	private String name;

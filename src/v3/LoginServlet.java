@@ -1,4 +1,4 @@
-package v4nio;
+package v3;
 
 
 
@@ -10,11 +10,11 @@ public class LoginServlet implements Servlet {
 		response.print("<head>"); 
 		response.print("<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">" ); 
 		response.print("<title>");
-		response.print("绗竴涓猻ervlet");
+		response.print("第一个servlet");
 		response.print("</title>");
 		response.print("</head>");
 		response.print("<body>");
-		response.print("娆㈣繋鍥炴潵:"+request.getParameter("uname"));
+		response.print("欢迎回来:"+request.getParameter("uname"));
 		response.print("</body>");
 		response.print("</html>");
 	}

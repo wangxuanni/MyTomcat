@@ -1,10 +1,10 @@
-package v5.core.context;
+package v4.core.context;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import v5.core.entity.Entity;
-import v5.core.entity.Mapping;
+import v4.core.entity.Entity;
+import v4.core.entity.Mapping;
 
 import java.util.ArrayList;
 import java.util.List;

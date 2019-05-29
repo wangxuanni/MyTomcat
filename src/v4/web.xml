@@ -2,7 +2,7 @@
  <web-app>
  <servlet>
 	  <servlet-name>login</servlet-name>
-	  <servlet-class>v5.user.LoginServlet</servlet-class>
+	  <servlet-class>v4.user.LoginServlet</servlet-class>
  </servlet>   
   <servlet-mapping>
 	  <servlet-name>login</servlet-name>

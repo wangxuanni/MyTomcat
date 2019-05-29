@@ -1,8 +1,8 @@
-package v5.core.context;
+package v4.core.context;
 
 
 
-import v5.core.servlet.Servlet;
+import v4.core.servlet.Servlet;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -25,7 +25,7 @@ public class WebApp {
 			WebHandler handler=new WebHandler();
 			//5、解析直接从web.xml导文件
 			parse.parse(Thread.currentThread().getContextClassLoader()
-			.getResourceAsStream("v5/web.xml")
+			.getResourceAsStream("v4/web.xml")
 			,handler);
 			//获取数据
 			webContext = new WebContext(handler.getEntitys(),handler.getMappings());

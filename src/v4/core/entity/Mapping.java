@@ -1,4 +1,4 @@
-package v5.core.entity;
+package v4.core.entity;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class NioServer {
-
+    Request request;
+    Response response;
 
     public static void main(String[] args) throws IOException {
-
         NioServer nioServer = new NioServer();
         nioServer.start();
 
@@ -22,7 +22,7 @@ public class NioServer {
     void start() throws IOException {
         Selector selector = Selector.open();
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-        serverSocketChannel.bind(new InetSocketAddress(8080));
+        serverSocketChannel.bind(new InetSocketAddress(7777));
         serverSocketChannel.configureBlocking(false);
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         /*
@@ -41,38 +41,48 @@ public class NioServer {
                 SelectionKey selectionKey = (SelectionKey) iterator.next();
 
                 if (selectionKey.isAcceptable()) {
-                    SocketChannel socketChannel = serverSocketChannel.accept();
-                    socketChannel.configureBlocking(false);
-                    socketChannel.register(selector, SelectionKey.OP_READ);
-
-                    Response response = new Response(socketChannel);
-
-                    response.print("<html>");
-                    response.print("<head>");
-                    response.print("<title>");
-                    response.print("服务器响应成功");
-                    response.print("</title>");
-                    response.print("</head>");
-                    response.print("<body>");
-                    response.print("来而不往非礼也");
-                    response.print("</body>");
-                    response.print("</html>");
-
-                    response.pushToBrowser(200);
+                    acceptHandler(serverSocketChannel, selector);
 
                 }
 
                 if (selectionKey.isReadable()) {
-                    Request request = new Request(selectionKey);
+                    readHandler(selectionKey, selector);
+                }
+                if (request != null && response != null) {
+                    System.out.println("request url:"+request.getUrl());
+//request url:loginservlet
+                    if (request.getUrl().endsWith("servlet")){
+                        Servlet servlet = new LoginServlet();
+                        servlet.service(this.request,this.response);
+                        response.pushToBrowser(200);
+                        this.request.closeSocketChannel();
+                    }else {
+                        response.setRequest(request);
+                        response.sendStaticResource(request.getUrl());
+                        this.request.closeSocketChannel();
+
+
+                    }
+
+
 
                 }
                 iterator.remove();
-
             }
-
-
         }
     }
 
+    private void acceptHandler(ServerSocketChannel serverSocketChannel, Selector selector) throws IOException {
+        SocketChannel socketChannel = serverSocketChannel.accept();
+        socketChannel.configureBlocking(false);
+        socketChannel.register(selector, SelectionKey.OP_READ);
 
+        this.response = new Response(socketChannel);
+
+    }
+
+    private void readHandler(SelectionKey selectionKey, Selector selector) throws IOException {
+        this.request = new Request(selectionKey);
+
+    }
 }

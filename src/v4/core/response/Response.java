@@ -1,4 +1,4 @@
-package v5.core.response;
+package v4.core.response;
 
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
@@ -69,4 +69,11 @@ public class Response {
         return this;
     }
 
+    public void setContent(StringBuilder content) {
+        this.content = content;
+    }
+
+    public void setHeadInfo(StringBuilder headInfo) {
+        this.headInfo = headInfo;
+    }
 }

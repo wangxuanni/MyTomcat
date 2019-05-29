@@ -1,4 +1,4 @@
-package v2;
+package v1;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -6,17 +6,12 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-/*版本二：从C/S到B/S——收到请求并返回响应
- * 启动服务器
- * 打开浏览器http://localhost:8080对应端口
- * 控制台接到http请求，并打印
- * 封装输出流，返回http响应，浏览器打印"Hello  MyTomcat"
- * */
-public class TomcatServerV2 {
+
+public class BioServer {
     private static ExecutorService threadPool = Executors.newCachedThreadPool();
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8080);
+        ServerSocket serverSocket = new ServerSocket(7777);
         System.out.println("tomcat服务器启动成功");
         while (!serverSocket.isClosed()) {
             Socket socket = serverSocket.accept();

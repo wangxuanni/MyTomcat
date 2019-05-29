@@ -1,9 +1,9 @@
-package v5.user;
+package v4.user;
 
 
-import v5.core.servlet.Servlet;
-import v5.core.request.Request;
-import v5.core.response.Response;
+import v4.core.servlet.Servlet;
+import v4.core.request.Request;
+import v4.core.response.Response;
 
 public class LoginServlet implements Servlet {
 	@Override
@@ -12,11 +12,11 @@ public class LoginServlet implements Servlet {
 		response.print("<head>"); 
 		response.print("<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">" ); 
 		response.print("<title>");
-		response.print("绗竴涓猻ervlet");
+		response.print("第一个servlet");
 		response.print("</title>");
 		response.print("</head>");
 		response.print("<body>");
-		response.print("娆㈣繋鏉ュ埌娴嬭瘯椤甸潰");
+		response.print("欢迎来到测试页面");
 		response.print("</body>");
 		response.print("</html>");
 	}
