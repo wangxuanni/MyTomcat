@@ -22,7 +22,6 @@ public class    Response {
 
     }
 
-
     public void pushToBrowser(int code) throws IOException {
         if (null == headInfo) {
             code = 505;

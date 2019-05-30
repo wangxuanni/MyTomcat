@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class Request {
+
     //协议信息
     private String requestInfo;
     //请求方式
