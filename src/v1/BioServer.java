@@ -11,14 +11,14 @@ public class BioServer {
     private static ExecutorService threadPool = Executors.newCachedThreadPool();
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(7777);
-        System.out.println("tomcat·şÎñÆ÷Æô¶¯³É¹¦");
+        ServerSocket serverSocket = new ServerSocket(8080);
+        System.out.println("tomcatæœåŠ¡å™¨å¯åŠ¨æˆåŠŸ");
         while (!serverSocket.isClosed()) {
             Socket socket = serverSocket.accept();
             threadPool.execute(() -> {
                 try {
                     InputStream inputStream = socket.getInputStream();
-                    System.out.println("ÊÕµ½ÇëÇó");
+                    System.out.println("æ”¶åˆ°è¯·æ±‚");
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     String msg = null;
                     while ((msg = reader.readLine()) != null) {
@@ -34,14 +34,14 @@ public class BioServer {
                     content.append("<html>");
                     content.append("<head>");
                     content.append("<title>");
-                    content.append("·şÎñÆ÷ÏìÓ¦³É¹¦");
+                    content.append("æœåŠ¡å™¨å“åº”æˆåŠŸ");
                     content.append("</title>");
                     content.append("</head>");
                     content.append("<body>");
-                    content.append("À´¶ø²»Íù·ÇÀñÒ²");
+                    content.append("æ¥è€Œä¸å¾€éç¤¼ä¹Ÿ");
                     content.append("</body>");
                     content.append("</html>");
-                    int size = content.toString().getBytes().length; //±ØĞë»ñÈ¡×Ö½Ú³¤¶È
+                    int size = content.toString().getBytes().length; //å¿…é¡»è·å–å­—èŠ‚é•¿åº¦
 
                     StringBuilder responseInfo =new StringBuilder();
                     String blank =" ";
@@ -57,7 +57,7 @@ public class BioServer {
 
                     responseInfo.append(content.toString());
 
-                    //Ğ´³öµ½¿Í»§¶Ë
+                    //å†™å‡ºåˆ°å®¢æˆ·ç«¯
                     BufferedWriter bw =new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                     bw.write(responseInfo.toString());
                     bw.flush();
