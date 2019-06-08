@@ -1,5 +1,8 @@
 package com.wxn.v3;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
@@ -10,6 +13,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class NioServer {
+    private static final Logger logger = LoggerFactory.getLogger(NioServer.class);
+
     Request request;
     Response response;
     private boolean shutdown = false;
@@ -30,9 +35,9 @@ public class NioServer {
             serverSocketChannel.bind(new InetSocketAddress(8080));
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-        /*
-        ServerSocket serverSocket = new ServerSocket(8080);*/
-            System.out.println("tomcat服务器启动成功");
+
+            logger.info("服务器启动成功");
+
             while (!shutdown) {
                 int readyChannels = selector.select();
                 if (readyChannels == 0) {

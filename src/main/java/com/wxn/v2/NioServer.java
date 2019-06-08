@@ -19,7 +19,6 @@ public class NioServer {
 
         NioServer nioServer = new NioServer();
         nioServer.start();
-
     }
 
     void start() throws IOException {

@@ -1,5 +1,9 @@
 package com.wxn.v1;
 
+import com.wxn.v2.NioServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,8 +12,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class BioServer {
+    private static final Logger logger = LoggerFactory.getLogger(BioServer.class);
 
     private static ExecutorService threadPool = Executors.newCachedThreadPool();
+
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(8080);
