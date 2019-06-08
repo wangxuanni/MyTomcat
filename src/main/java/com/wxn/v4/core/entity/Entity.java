@@ -1,4 +1,4 @@
-package v4.core.entity;
+package com.wxn.v4.core.entity;
 
 public class Entity {
 	private String name;

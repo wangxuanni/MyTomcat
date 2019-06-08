@@ -1,4 +1,4 @@
-package v4.core.entity;
+package com.wxn.v4.core.entity;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,31 +1,28 @@
-package v3;
+package com.wxn.v4.core.request;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.util.*;
 
 public class Request {
-    //Ð­ÒéÐÅÏ¢
+    //Ð­ï¿½ï¿½ï¿½ï¿½Ï¢
     private String requestInfo;
-    //ÇëÇó·½Ê½
+    //ï¿½ï¿½ï¿½ï¿½Ê½
     private String method;
-    //ÇëÇóurl
+    //ï¿½ï¿½ï¿½ï¿½url
     private String url;
-    //ÇëÇó²ÎÊý
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private String queryStr;
-    //´æ´¢²ÎÊý
+    //ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½
     private Map<String, List<String>> parameterMap;
     private final String CRLF = "\r\n";
-    SelectionKey selectionKey;
     SocketChannel socketChannel;
-    public Request(SelectionKey selectionKey) throws IOException {
+    public Request(SocketChannel socketChannel) throws IOException {
         this.parameterMap = new HashMap<String, List<String>>();
-        this.selectionKey = selectionKey;
-       this.socketChannel = (SocketChannel) selectionKey.channel();
+       this.socketChannel = socketChannel;
         readHandler(this.socketChannel);
 
     }
@@ -49,28 +46,29 @@ public class Request {
     }
 
     private void parseRequestInfo() {
-        System.out.println("---1¡¢»ñÈ¡ÇëÇó·½Ê½: ¿ªÍ·µ½µÚÒ»¸ö/------");
+
+                //1ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê½: ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½/
         this.method = this.requestInfo.substring(0,
                 this.requestInfo.indexOf("/")).toLowerCase();
         this.method = this.method.trim();
-        System.out.println("---2¡¢»ñÈ¡ÇëÇóurl: µÚÒ»¸ö/ µ½ HTTP/------");
-        System.out.println("---¿ÉÄÜ°üº¬ÇëÇó²ÎÊý? Ç°ÃæµÄÎªurl------");
-        //1)¡¢»ñÈ¡/µÄÎ»ÖÃ
+        //2ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½url: ï¿½ï¿½Ò»ï¿½ï¿½/ ï¿½ï¿½ HTTP/
+        //ï¿½ï¿½ï¿½Ü°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½? Ç°ï¿½ï¿½ï¿½Îªurl
+        //1)ï¿½ï¿½ï¿½ï¿½È¡/ï¿½ï¿½Î»ï¿½ï¿½
         int startIdx = this.requestInfo.indexOf("/") + 1;
-        //2)¡¢»ñÈ¡ HTTP/µÄÎ»ÖÃ
+        //2)ï¿½ï¿½ï¿½ï¿½È¡ HTTP/ï¿½ï¿½Î»ï¿½ï¿½
         int endIdx = this.requestInfo.indexOf("HTTP/");
-        //3)¡¢·Ö¸î×Ö·û´®
+        //3)ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
         this.url = this.requestInfo.substring(startIdx, endIdx).trim();
-        //4)¡¢»ñÈ¡£¿µÄÎ»ÖÃ
+        //4)ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
         int queryIdx = this.url.indexOf("?");
-        if (queryIdx >= 0) {//±íÊ¾´æÔÚÇëÇó²ÎÊý
+        if (queryIdx >= 0) {//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             String[] urlArray = this.url.split("\\?");
             this.url = urlArray[0];
             queryStr = urlArray[1];
         }
         System.out.println(this.url);
 
-        System.out.println("---3¡¢»ñÈ¡ÇëÇó²ÎÊý:Èç¹ûGetÒÑ¾­»ñÈ¡,Èç¹ûÊÇpost¿ÉÄÜÔÚÇëÇóÌåÖÐ------");
+        //3ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½Getï¿½Ñ¾ï¿½ï¿½ï¿½È¡,ï¿½ï¿½ï¿½ï¿½ï¿½postï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         if (method.equals("post")) {
             String qStr = this.requestInfo.substring(this.requestInfo.lastIndexOf(CRLF)).trim();
@@ -83,23 +81,23 @@ public class Request {
         }
         queryStr = null == queryStr ? "" : queryStr;
         System.out.println(method + "-->" + url + "-->" + queryStr);
-        //×ª³ÉMap fav=1&fav=2&uname=shsxt&age=18&others=
+        //×ªï¿½ï¿½Map fav=1&fav=2&uname=shsxt&age=18&others=
         convertMap();
     }
 
-    //´¦ÀíÇëÇó²ÎÊýÎªMap
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªMap
     private void convertMap() {
-        //1¡¢·Ö¸î×Ö·û´® &
+        //1ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ &
         String[] keyValues = this.queryStr.split("&");
         for (String queryStr : keyValues) {
-            //2¡¢ÔÙ´Î·Ö¸î×Ö·û´®  =
+            //2ï¿½ï¿½ï¿½Ù´Î·Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½  =
             String[] kv = queryStr.split("=");
             kv = Arrays.copyOf(kv, 2);
-            //»ñÈ¡keyºÍvalue
+            //ï¿½ï¿½È¡keyï¿½ï¿½value
             String key = kv[0];
             String value = kv[1] == null ? null : decode(kv[1], "utf-8");
-            //´æ´¢µ½mapÖÐ
-            if (!parameterMap.containsKey(key)) { //µÚÒ»´Î
+            //ï¿½æ´¢ï¿½ï¿½mapï¿½ï¿½
+            if (!parameterMap.containsKey(key)) { //ï¿½ï¿½Ò»ï¿½ï¿½
                 parameterMap.put(key, new ArrayList<String>());
             }
             parameterMap.get(key).add(value);
@@ -107,7 +105,7 @@ public class Request {
     }
 
     /**
-     * ´¦ÀíÖÐÎÄ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
      * @return
      */
@@ -122,7 +120,7 @@ public class Request {
     }
 
     /**
-     * Í¨¹ýname»ñÈ¡¶ÔÓ¦µÄ¶à¸öÖµ
+     * Í¨ï¿½ï¿½nameï¿½ï¿½È¡ï¿½ï¿½Ó¦ï¿½Ä¶ï¿½ï¿½Öµ
      *
      * @param key
      * @return
@@ -136,7 +134,7 @@ public class Request {
     }
 
     /**
-     * Í¨¹ýname»ñÈ¡¶ÔÓ¦µÄÒ»¸öÖµ
+     * Í¨ï¿½ï¿½nameï¿½ï¿½È¡ï¿½ï¿½Ó¦ï¿½ï¿½Ò»ï¿½ï¿½Öµ
      *
      * @param key
      * @return

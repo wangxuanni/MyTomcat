@@ -1,9 +1,9 @@
-package v4.user;
+package com.wxn.v4.user;
 
 
-import v4.core.servlet.Servlet;
-import v4.core.request.Request;
-import v4.core.response.Response;
+import com.wxn.v4.core.servlet.Servlet;
+import com.wxn.v4.core.request.Request;
+import com.wxn.v4.core.response.Response;
 
 public class LoginServlet implements Servlet {
 	@Override

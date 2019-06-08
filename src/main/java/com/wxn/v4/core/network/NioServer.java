@@ -1,9 +1,9 @@
-package v4.core.network;
+package com.wxn.v4.core.network;
 
-import v4.core.servlet.Servlet;
-import v4.core.context.WebApp;
-import v4.core.request.Request;
-import v4.core.response.Response;
+import com.wxn.v4.core.servlet.Servlet;
+import com.wxn.v4.core.context.WebApp;
+import com.wxn.v4.core.request.Request;
+import com.wxn.v4.core.response.Response;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -31,7 +31,7 @@ public class NioServer {
         serverSocketChannel.configureBlocking(false);
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
-        System.out.println("tomcat·þÎñÆ÷Æô¶¯³É¹¦");
+        System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
         while (true) {
             int readyChannels = selector.select();
             if (readyChannels == 0) {
@@ -43,29 +43,29 @@ public class NioServer {
             while (iterator.hasNext()) {
 
                 SelectionKey selectionKey = (SelectionKey) iterator.next();
+                iterator.remove();
 
                 if (selectionKey.isAcceptable()) {
                     acceptHandler(serverSocketChannel, selector);
-
                 }
 
                 if (selectionKey.isReadable()) {
                     readHandler(selectionKey, selector);
-                }
-                if (request!=null&&response!=null){
+                    if (request!=null&&response!=null){
 
-                    Servlet servlet= WebApp.getServletFromUrl(this.request.getUrl());
-                    if(null!=servlet) {
-                        servlet.service(this.request, this.response);
-                        //¹Ø×¢ÁË×´Ì¬Âë
-                        response.pushToBrowser(200);
-                        this.request.closeSocketChannel();
+                        Servlet servlet= WebApp.getServletFromUrl(this.request.getUrl());
+                        if(null!=servlet) {
+                            servlet.service(this.request, this.response);
+                            //ï¿½ï¿½×¢ï¿½ï¿½×´Ì¬ï¿½ï¿½
+                            response.pushToBrowser(200);
+                            this.request.closeSocketChannel();
 
-                    }else {
-                        //´íÎó....
+                        }else {
+                            //ï¿½ï¿½ï¿½ï¿½....
+                        }
                     }
                 }
-                iterator.remove();
+
             }
         }
     }
@@ -80,7 +80,11 @@ public class NioServer {
     }
 
     private void readHandler(SelectionKey selectionKey, Selector selector) throws IOException {
-        this.request =new Request(selectionKey);
+
+        SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+        this.request =new Request(socketChannel);
+        socketChannel.register(selector, SelectionKey.OP_READ);
+
 
     }
 }

@@ -1,4 +1,4 @@
-package v3;
+package com.wxn.v3;
 
 
 public interface Servlet {
