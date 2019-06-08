@@ -10,15 +10,15 @@ import java.util.*;
 
 public class Request {
 
-    //Ð­ï¿½ï¿½ï¿½ï¿½Ï¢
+    //Ð­ÒéÐÅÏ¢
     private String requestInfo;
-    //ï¿½ï¿½ï¿½ï¿½Ê½
+    //ÇëÇó·½Ê½
     private String method;
-    //ï¿½ï¿½ï¿½ï¿½url
+    //ÇëÇóurl
     private String url;
-    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    //ÇëÇó²ÎÊý
     private String queryStr;
-    //ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½
+    //´æ´¢²ÎÊý
     private Map<String, List<String>> parameterMap;
     private final  String CRLF = "\r\n";
     SelectionKey selectionKey;
@@ -48,28 +48,28 @@ public class Request {
     }
 
     private void parseRequestInfo() {
-        System.out.println("---1ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê½: ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½/------");
+        System.out.println("---1¡¢»ñÈ¡ÇëÇó·½Ê½: ¿ªÍ·µ½µÚÒ»¸ö/------");
         this.method = this.requestInfo.substring(0,
                 this.requestInfo.indexOf("/")).toLowerCase();
         this.method=this.method.trim();
-        System.out.println("---2ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½url: ï¿½ï¿½Ò»ï¿½ï¿½/ ï¿½ï¿½ HTTP/------");
-        System.out.println("---ï¿½ï¿½ï¿½Ü°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½? Ç°ï¿½ï¿½ï¿½Îªurl------");
-        //1)ï¿½ï¿½ï¿½ï¿½È¡/ï¿½ï¿½Î»ï¿½ï¿½
+        System.out.println("---2¡¢»ñÈ¡ÇëÇóurl: µÚÒ»¸ö/ µ½ HTTP/------");
+        System.out.println("---¿ÉÄÜ°üº¬ÇëÇó²ÎÊý? Ç°ÃæµÄÎªurl------");
+        //1)¡¢»ñÈ¡/µÄÎ»ÖÃ
         int startIdx = this.requestInfo.indexOf("/")+1;
-        //2)ï¿½ï¿½ï¿½ï¿½È¡ HTTP/ï¿½ï¿½Î»ï¿½ï¿½
+        //2)¡¢»ñÈ¡ HTTP/µÄÎ»ÖÃ
         int endIdx = this.requestInfo.indexOf("HTTP/");
-        //3)ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+        //3)¡¢·Ö¸î×Ö·û´®
         this.url = this.requestInfo.substring(startIdx, endIdx).trim();
-        //4)ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+        //4)¡¢»ñÈ¡£¿µÄÎ»ÖÃ
         int queryIdx =this.url.indexOf("?");
-        if(queryIdx>=0) {//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if(queryIdx>=0) {//±íÊ¾´æÔÚÇëÇó²ÎÊý
             String[] urlArray = this.url.split("\\?");
             this.url =urlArray[0];
             queryStr =urlArray[1];
         }
         System.out.println(this.url);
 
-        System.out.println("---3ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½Getï¿½Ñ¾ï¿½ï¿½ï¿½È¡,ï¿½ï¿½ï¿½ï¿½ï¿½postï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½------");
+        System.out.println("---3¡¢»ñÈ¡ÇëÇó²ÎÊý:Èç¹ûGetÒÑ¾­»ñÈ¡,Èç¹ûÊÇpost¿ÉÄÜÔÚÇëÇóÌåÖÐ------");
 
         if(method.equals("post")) {
             String qStr =this.requestInfo.substring(this.requestInfo.lastIndexOf(CRLF)).trim();
@@ -82,29 +82,29 @@ public class Request {
         }
         queryStr = null==queryStr?"":queryStr;
         System.out.println(method+"-->"+url+"-->"+queryStr);
-        //×ªï¿½ï¿½Map fav=1&fav=2&uname=shsxt&age=18&others=
+        //×ª³ÉMap fav=1&fav=2&uname=shsxt&age=18&others=
         convertMap();
     }
-    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªMap
+    //´¦ÀíÇëÇó²ÎÊýÎªMap
     private void convertMap() {
-        //1ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ &
+        //1¡¢·Ö¸î×Ö·û´® &
         String[] keyValues =this.queryStr.split("&");
         for(String queryStr:keyValues) {
-            //2ï¿½ï¿½ï¿½Ù´Î·Ö¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½  =
+            //2¡¢ÔÙ´Î·Ö¸î×Ö·û´®  =
             String[] kv = queryStr.split("=");
             kv = Arrays.copyOf(kv, 2);
-            //ï¿½ï¿½È¡keyï¿½ï¿½value
+            //»ñÈ¡keyºÍvalue
             String key = kv[0];
             String value = kv[1]==null?null:decode( kv[1],"utf-8");
-            //ï¿½æ´¢ï¿½ï¿½mapï¿½ï¿½
-            if(!parameterMap.containsKey(key)) { //ï¿½ï¿½Ò»ï¿½ï¿½
+            //´æ´¢µ½mapÖÐ
+            if(!parameterMap.containsKey(key)) { //µÚÒ»´Î
                 parameterMap.put(key, new ArrayList<String>());
             }
             parameterMap.get(key).add(value);
         }
     }
     /**
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ´¦ÀíÖÐÎÄ
      * @return
      */
     private String decode(String value,String enc) {
@@ -117,7 +117,7 @@ public class Request {
         return null;
     }
     /**
-     * Í¨ï¿½ï¿½nameï¿½ï¿½È¡ï¿½ï¿½Ó¦ï¿½Ä¶ï¿½ï¿½Öµ
+     * Í¨¹ýname»ñÈ¡¶ÔÓ¦µÄ¶à¸öÖµ
      * @param key
      * @return
      */
@@ -129,7 +129,7 @@ public class Request {
         return values.toArray(new String[0]);
     }
     /**
-     * Í¨ï¿½ï¿½nameï¿½ï¿½È¡ï¿½ï¿½Ó¦ï¿½ï¿½Ò»ï¿½ï¿½Öµ
+     * Í¨¹ýname»ñÈ¡¶ÔÓ¦µÄÒ»¸öÖµ
      * @param key
      * @return
      */

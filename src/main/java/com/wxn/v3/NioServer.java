@@ -36,7 +36,7 @@ public class NioServer {
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
-            logger.info("æœåŠ¡å™¨å¯åŠ¨æˆåŠŸ");
+            logger.info("·şÎñÆ÷Æô¶¯³É¹¦");
 
             while (!shutdown) {
                 int readyChannels = selector.select();

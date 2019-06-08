@@ -15,16 +15,16 @@ public class BioServer {
 
     private static ExecutorService threadPool = Executors.newCachedThreadPool();
 
+
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(8080);
-        logger.info("服务器启动成功");
-
+        System.out.println("tomcat服务器启动成功");
         while (!serverSocket.isClosed()) {
             Socket socket = serverSocket.accept();
             threadPool.execute(() -> {
                 try {
                     InputStream inputStream = socket.getInputStream();
-
+                    System.out.println("收到请求");
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     String msg = null;
                     while ((msg = reader.readLine()) != null) {
@@ -40,14 +40,14 @@ public class BioServer {
                     content.append("<html>");
                     content.append("<head>");
                     content.append("<title>");
-                    content.append("????????????");
+                    content.append("服务器响应成功");
                     content.append("</title>");
                     content.append("</head>");
                     content.append("<body>");
-                    content.append("?????????????");
+                    content.append("来而不往非礼也");
                     content.append("</body>");
                     content.append("</html>");
-                    int size = content.toString().getBytes().length; //????????????
+                    int size = content.toString().getBytes().length; //必须获取字节长度
 
                     StringBuilder responseInfo =new StringBuilder();
                     String blank =" ";
@@ -63,7 +63,7 @@ public class BioServer {
 
                     responseInfo.append(content.toString());
 
-                    //д?????????
+                    //写出到客户端
                     BufferedWriter bw =new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                     bw.write(responseInfo.toString());
                     bw.flush();

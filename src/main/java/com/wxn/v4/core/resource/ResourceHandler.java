@@ -4,8 +4,8 @@ package com.wxn.v4.core.resource;
 
 
 import com.sun.corba.se.impl.presentation.rmi.ExceptionHandler;
-import com.wxn.v4.core.request.Request;
-import com.wxn.v4.core.response.Response;
+import com.wxn.v3.Request;
+import com.wxn.v3.Response;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ public class ResourceHandler {
         String url = request.getUrl();
         try {
             if (ResourceHandler.class.getResource(url) == null) {
-                System.out.println("ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´:{}"+url);
+                System.out.println("ÕÒ²»µ½¸Ã×ÊÔ´:{}"+url);
             }
             byte[] body = IOUtil.getBytesFromFile(url);
 

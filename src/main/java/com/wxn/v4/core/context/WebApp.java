@@ -1,40 +1,39 @@
 package com.wxn.v4.core.context;
 
 
-
-import com.wxn.v4.core.servlet.Servlet;
+import com.wxn.v3.Servlet;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 /**
- * 锟斤拷SAX锟斤拷锟斤拷
- * 通锟斤拷url锟斤拷锟斤拷锟饺★拷锟斤拷锟斤拷募锟斤拷锟接︼拷锟絪ervlet
+ * 用SAX解析
+ * 通过url反射获取配置文件对应的servlet
  */
 public class WebApp {
 	private static WebContext webContext ;
 	static {
 		try {
-			//SAX锟斤拷锟斤拷
-			//1锟斤拷锟斤拷取锟斤拷锟斤拷锟斤拷锟斤拷
+			//SAX解析
+			//1、获取解析工厂
 			SAXParserFactory factory=SAXParserFactory.newInstance();
-			//2锟斤拷锟接斤拷锟斤拷锟斤拷锟斤拷锟斤拷取锟斤拷锟斤拷锟斤拷
+			//2、从解析工厂获取解析器
 			SAXParser parse =factory.newSAXParser();
-			//3锟斤拷锟斤拷写锟斤拷锟斤拷锟斤拷
-			//4锟斤拷锟斤拷锟斤拷锟侥碉拷?Document?注锟结处锟斤拷锟斤拷
+			//3、编写处理器
+			//4、加载文档?Document?注册处理器
 			WebHandler handler=new WebHandler();
-			//5锟斤拷锟斤拷锟斤拷直锟接达拷web.xml锟斤拷锟侥硷拷
+			//5、解析直接从web.xml导文件
 			parse.parse(Thread.currentThread().getContextClassLoader()
-			.getResourceAsStream("com/wxn/v4/web.xml")
+			.getResourceAsStream("v4/web.xml")
 			,handler);
-			//锟斤拷取锟斤拷锟斤拷
+			//获取数据
 			webContext = new WebContext(handler.getEntitys(),handler.getMappings());
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	/**
-	 * 通锟斤拷url锟斤拷锟斤拷锟饺★拷锟斤拷锟斤拷募锟斤拷锟接︼拷锟絪ervlet
+	 * 通过url反射获取配置文件对应的servlet
 	 */
 	public static Servlet getServletFromUrl(String url) {
 
