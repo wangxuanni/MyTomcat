@@ -55,12 +55,18 @@ public class Request {
 
     }
 
+    public boolean isKeepAlive() {
+        return keepAlive;
+    }
+
+
     private void parseRequestInfo() {
 
                 //1、获取请求方式: 开头到第一个/
         this.method = this.requestInfo.substring(0,
                 this.requestInfo.indexOf("/")).toLowerCase();
         this.method = this.method.trim();
+        //根据报文设置是否为keepAlive
         if(this.requestInfo.contains("keep-alive")&&this.requestInfo.contains("HTTP/1.1")){
             this.keepAlive=true;
         }else{
