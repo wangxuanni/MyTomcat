@@ -8,7 +8,7 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.util.*;
 
-public class Request {
+ class Request {
     //协议信息
     private String requestInfo;
     //请求方式

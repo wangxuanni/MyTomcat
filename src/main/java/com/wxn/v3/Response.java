@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.util.Date;
 
-public class Response {
+ class Response {
     SocketChannel socketChannel;
     private StringBuilder content;
     private StringBuilder headInfo;

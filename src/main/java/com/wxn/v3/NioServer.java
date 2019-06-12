@@ -77,7 +77,7 @@ public class NioServer {
 
                     }
 
-                    shutdown = request.getUrl().equals(SHUTDOWN_COMMAND);
+                    //shutdown = request.getUrl().equals(SHUTDOWN_COMMAND);
                     iterator.remove();
 
                 }

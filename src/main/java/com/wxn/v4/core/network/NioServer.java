@@ -2,10 +2,11 @@ package com.wxn.v4.core.network;
 
 
 
-import com.wxn.v3.Request;
-import com.wxn.v3.Response;
-import com.wxn.v3.Servlet;
+
+import com.wxn.v4.core.request.Request;
+import com.wxn.v4.core.response.Response;
 import com.wxn.v4.core.context.WebApp;
+import com.wxn.v4.core.servlet.Servlet;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -55,7 +56,7 @@ public class NioServer {
                     readHandler(selectionKey, selector);
                     if (request!=null&&response!=null){
 
-                        Servlet servlet= WebApp.getServletFromUrl(this.request.getUrl());
+                        Servlet servlet= (Servlet) WebApp.getServletFromUrl(this.request.getUrl());
                         if(null!=servlet) {
                             servlet.service(this.request, this.response);
                             //¹Ø×¢ÁË×´Ì¬Âë
@@ -84,7 +85,7 @@ public class NioServer {
     private void readHandler(SelectionKey selectionKey, Selector selector) throws IOException {
 
         SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
-        //this.request =new Request(socketChannel);
+        this.request =new Request(socketChannel);
         socketChannel.register(selector, SelectionKey.OP_READ);
 
 

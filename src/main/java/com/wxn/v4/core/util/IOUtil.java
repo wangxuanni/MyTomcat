@@ -1,4 +1,4 @@
-package com.wxn.v4.core.resource;
+package com.wxn.v4.core.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

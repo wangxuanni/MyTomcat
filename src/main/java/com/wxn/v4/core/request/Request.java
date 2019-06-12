@@ -1,5 +1,10 @@
 package com.wxn.v4.core.request;
 
+import com.wxn.v4.core.network.NioEndpoint;
+import com.wxn.v4.core.util.PropertyUtil;
+import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -8,6 +13,9 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class Request {
+    private static Logger logger = Logger.getLogger(Request.class);
+
+
     //协议信息
     private String requestInfo;
     //请求方式
@@ -16,6 +24,8 @@ public class Request {
     private String url;
     //请求参数
     private String queryStr;
+    //是否长连接
+    public boolean keepAlive = false;
     //存储参数
     private Map<String, List<String>> parameterMap;
     private final String CRLF = "\r\n";
@@ -34,7 +44,7 @@ public class Request {
             requestInfo += Charset.forName("UTF-8").decode(byteBuffer);
 
         }
-        System.out.println(requestInfo);
+        logger.info("HTTP报文内容\n"+requestInfo);
         parseRequestInfo();
         byteBuffer.clear();
 
@@ -51,6 +61,12 @@ public class Request {
         this.method = this.requestInfo.substring(0,
                 this.requestInfo.indexOf("/")).toLowerCase();
         this.method = this.method.trim();
+        if(this.requestInfo.contains("keep-alive")&&this.requestInfo.contains("HTTP/1.1")){
+            this.keepAlive=true;
+        }else{
+            this.keepAlive=false;
+
+        }
         //2、获取请求url: 第一个/ 到 HTTP/
         //可能包含请求参数? 前面的为url
         //1)、获取/的位置
@@ -66,13 +82,13 @@ public class Request {
             this.url = urlArray[0];
             queryStr = urlArray[1];
         }
-        System.out.println(this.url);
+        logger.info("{method="+this.method+",url="+this.url+",queryStr="+queryStr+")");
 
         //3、获取请求参数:如果Get已经获取,如果是post可能在请求体中
 
         if (method.equals("post")) {
             String qStr = this.requestInfo.substring(this.requestInfo.lastIndexOf(CRLF)).trim();
-            System.out.println(qStr + "-->");
+            logger.info("qStr:"+qStr);
             if (null == queryStr) {
                 queryStr = qStr;
             } else {
@@ -80,8 +96,6 @@ public class Request {
             }
         }
         queryStr = null == queryStr ? "" : queryStr;
-        System.out.println(method + "-->" + url + "-->" + queryStr);
-        //转成Map fav=1&fav=2&uname=shsxt&age=18&others=
         convertMap();
     }
 
@@ -155,4 +169,6 @@ public class Request {
     public String getQueryStr() {
         return queryStr;
     }
+
+
 }

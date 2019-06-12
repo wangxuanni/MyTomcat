@@ -1,11 +1,12 @@
-package com.wxn.v4.core.resource;
+package com.wxn.v4.core.util;
 
 
 
 
 import com.sun.corba.se.impl.presentation.rmi.ExceptionHandler;
-import com.wxn.v3.Request;
-import com.wxn.v3.Response;
+import com.wxn.v4.core.request.Request;
+import com.wxn.v4.core.response.Response;
+
 
 import java.io.IOException;
 
