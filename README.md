@@ -1,5 +1,5 @@
 # MyTomcat
-![进度](http://progressed.io/bar/70?title=done)
+![进度](http://progressed.io/bar/75?title=done)
 
 
 ## HTTPServer.V4
@@ -10,12 +10,12 @@
 * [x] Request
 * [x] Response
 * [x] Error Notification
+* [x] cookie
 * [x] web.xml parse
 * [X] GET&POST
-* [ ] keep-alive
-* [ ] cookie
+* [x] keep-alive
+* [x] log4j/slf4j
 * [ ] session
-* [ ] log4j/slf4j
 * [ ] 动静态资源分离
 
 
