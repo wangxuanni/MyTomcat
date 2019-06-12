@@ -1,10 +1,9 @@
 package com.wxn.v4.core.request;
 
-import com.wxn.v4.core.network.NioEndpoint;
-import com.wxn.v4.core.util.PropertyUtil;
+import com.wxn.v4.core.util.RequestUtil;
 import org.apache.log4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.Cookie;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -26,13 +25,18 @@ public class Request {
     private String queryStr;
     //是否长连接
     public boolean keepAlive = false;
+    private boolean requestedSessionCookie;
+    private String requestedSessionId;
+    private boolean requestedSessionURL;
     //存储参数
     private Map<String, List<String>> parameterMap;
+    protected ArrayList cookies = new ArrayList();
     private final String CRLF = "\r\n";
     SocketChannel socketChannel;
+
     public Request(SocketChannel socketChannel) throws IOException {
         this.parameterMap = new HashMap<String, List<String>>();
-       this.socketChannel = socketChannel;
+        this.socketChannel = socketChannel;
         readHandler(this.socketChannel);
 
     }
@@ -44,7 +48,7 @@ public class Request {
             requestInfo += Charset.forName("UTF-8").decode(byteBuffer);
 
         }
-        logger.info("HTTP报文内容\n"+requestInfo);
+        logger.info("HTTP报文内容\n" + requestInfo);
         parseRequestInfo();
         byteBuffer.clear();
 
@@ -62,15 +66,15 @@ public class Request {
 
     private void parseRequestInfo() {
 
-                //1、获取请求方式: 开头到第一个/
+        //1、获取请求方式: 开头到第一个/
         this.method = this.requestInfo.substring(0,
                 this.requestInfo.indexOf("/")).toLowerCase();
         this.method = this.method.trim();
         //根据报文设置是否为keepAlive
-        if(this.requestInfo.contains("keep-alive")&&this.requestInfo.contains("HTTP/1.1")){
-            this.keepAlive=true;
-        }else{
-            this.keepAlive=false;
+        if (this.requestInfo.contains("keep-alive") && this.requestInfo.contains("HTTP/1.1")) {
+            this.keepAlive = true;
+        } else {
+            this.keepAlive = false;
 
         }
         //2、获取请求url: 第一个/ 到 HTTP/
@@ -88,13 +92,13 @@ public class Request {
             this.url = urlArray[0];
             queryStr = urlArray[1];
         }
-        logger.info("{method="+this.method+",url="+this.url+",queryStr="+queryStr+")");
+        logger.info("{method=" + this.method + ",url=" + this.url + ",queryStr=" + queryStr + ")");
 
         //3、获取请求参数:如果Get已经获取,如果是post可能在请求体中
 
         if (method.equals("post")) {
             String qStr = this.requestInfo.substring(this.requestInfo.lastIndexOf(CRLF)).trim();
-            logger.info("qStr:"+qStr);
+            logger.info("qStr:" + qStr);
             if (null == queryStr) {
                 queryStr = qStr;
             } else {
@@ -103,6 +107,25 @@ public class Request {
         }
         queryStr = null == queryStr ? "" : queryStr;
         convertMap();
+
+        if (this.requestInfo.equals("Cookie")) {
+            Cookie cookies[] = RequestUtil.parseCookieHeader(this.requestInfo);
+            for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("jsessionid")) {
+                    // Override anything requested in the URL
+                    if (!this.isRequestedSessionIdFromCookie()) {
+                        // Accept only the first session id cookie
+                        setRequestedSessionId(cookies[i].getValue());
+                        setRequestedSessionCookie(true);
+                        setRequestedSessionURL(false);
+                        logger.info("requestedSessionCookie="+requestedSessionCookie+"requestedSessionId+"+requestedSessionId
+                                +"requestedSessionURL="+requestedSessionURL);
+                    }
+                }
+                addCookie(cookies[i]);
+            }
+            logger.info("cookie:"+cookies.toString());
+        }
     }
 
     //处理请求参数为Map
@@ -176,5 +199,24 @@ public class Request {
         return queryStr;
     }
 
+    public boolean isRequestedSessionIdFromCookie() {
+        return false;
+    }
+    public void setRequestedSessionCookie(boolean flag) {
+        this.requestedSessionCookie = flag;
+    }
 
+    public void setRequestedSessionId(String requestedSessionId) {
+        this.requestedSessionId = requestedSessionId;
+    }
+
+    public void setRequestedSessionURL(boolean flag) {
+        requestedSessionURL = flag;
+    }
+
+    public void addCookie(Cookie cookie) {
+        synchronized (cookies) {
+            cookies.add(cookie);
+        }
+    }
 }
