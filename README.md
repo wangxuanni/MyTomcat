@@ -10,12 +10,12 @@
 * [x] Request
 * [x] Response
 * [x] Error Notification
-* [x] cookie
+* [x] Cookie
 * [x] web.xml parse
 * [X] GET&POST
 * [x] keep-alive
 * [x] log4j/slf4j
-* [ ] session
+* [ ] Session
 * [ ] 动静态资源分离
 
 
