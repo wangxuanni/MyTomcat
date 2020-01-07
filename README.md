@@ -1,8 +1,7 @@
 # MyTomcat
-![进度](http://progressed.io/bar/75?title=done)
 
 
-## 当前版本HTTPServer.V4
+#### 当前版本HTTPServer.V4
 
 * [x] BIO
 * [x] NIO
