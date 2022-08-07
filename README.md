@@ -18,4 +18,4 @@
 * [ ] 动静态资源分离
 
 
-*[Do you want to know more? Click here](http://wangxuanni.top/2019/05/29/%E6%89%8B%E5%86%99http%E6%9C%8D%E5%8A%A1%E5%99%A8/)
+[Do you want to know more? Click here](http://wangxuanni.top/2019/05/29/%E6%89%8B%E5%86%99http%E6%9C%8D%E5%8A%A1%E5%99%A8/)
